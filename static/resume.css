@@ -1,6 +1,5 @@
 /* --------------------------------------------------
    PREMIUM BytePX Resume Converter UI
-   Clean • Modern • Glass • Responsive • SaaS Look
 -------------------------------------------------- */
 
 :root {
@@ -82,7 +81,7 @@ header .subtitle {
   border-left: 5px solid var(--accent);
 }
 
-/* ---------------- INPUTS + LABELS ---------------- */
+/* ---------------- INPUTS ---------------- */
 label {
   display: block;
   font-weight: 600;
@@ -118,7 +117,50 @@ textarea:focus {
   outline: none;
 }
 
-/* ---------------- BUTTON + STATUS ---------------- */
+/* ---------------- UPLOAD BOX ---------------- */
+.upload-box {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#resumeFile {
+  display: block;
+  margin: 0 auto 15px auto;
+  padding: 10px;
+  border: 2px dashed #6c63ff;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  background: #faf9ff;
+  cursor: pointer;
+}
+
+#resumeFile:hover {
+  background: #f0eaff;
+}
+
+#uploadBtn {
+  background: #02021d;
+  color: #fff;
+  padding: 12px 25px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#uploadBtn:hover {
+  background: #030122;
+  transform: translateY(-2px);
+}
+
+#uploadBtn:disabled {
+  background: #020114;
+  cursor: not-allowed;
+}
+
+/* ---------------- GENERATE BUTTON ---------------- */
 .actions {
   max-width: 1350px;
   margin: 32px auto 0;
@@ -148,12 +190,12 @@ button#generateBtn:active {
   transform: translateY(1px);
 }
 
+/* ---------------- STATUS ---------------- */
 .status {
-  margin-top: 14px;
-  color: #fff;
-  font-weight: 600;
+  margin-top: 12px;
   font-size: 15px;
-  letter-spacing: 0.3px;
+  color: #060428;
+  font-weight: bold;
 }
 
 /* ---------------- RESPONSIVE ---------------- */
@@ -183,51 +225,8 @@ button#generateBtn:active {
   button#generateBtn {
     width: 100%;
   }
-}
-.upload-box {
-    text-align: center;
-    margin-top: 20px;
-}
 
-#resumeFile {
-    display: block;
-    margin: 0 auto 15px auto;
-    padding: 10px;
-    border: 2px dashed #6c63ff;
-    border-radius: 10px;
-    width: 60%;
-    background: #faf9ff;
-    cursor: pointer;
-}
-
-#resumeFile:hover {
-    background: #f0eaff;
-}
-
-#uploadBtn {
-    background: #02021d;
-    color: #fff;
-    padding: 12px 25px;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-#uploadBtn:hover {
-    background: #030122;
-    transform: translateY(-2px);
-}
-
-#uploadBtn:disabled {
-    background: #020114;
-    cursor: not-allowed;
-}
-
-.status {
-    margin-top: 10px;
-    font-size: 16px;
-    color: #060428;
-    font-weight: bold;
+  #resumeFile {
+    width: 100%;
+  }
 }
