@@ -1,5 +1,6 @@
-const TEMPLATE_NAME = "BytePX Formet (1) (2) (2) (1).pptx";
+const TEMPLATE_NAME = "/static/BytePX Formet (1) (2) (2) (1).pptx";
 
+// ================= UPLOAD + PARSE =================
 document.getElementById('uploadBtn').addEventListener('click', async () => {
     const fileInput = document.getElementById('resumeFile');
     const uploadBtn = document.getElementById('uploadBtn');
@@ -13,14 +14,12 @@ document.getElementById('uploadBtn').addEventListener('click', async () => {
     formData.append("file", fileInput.files[0]);
 
     try {
-        // ✅ FIXED: removed localhost
-        const res = await fetch("/upload_resume", { 
-            method: "POST", 
+        const res = await fetch("/upload_resume", {
+            method: "POST",
             body: formData
         });
 
         const data = await res.json();
-        console.log("Received:", data);
 
         if (res.ok) {
             document.getElementById("name").value = data.name || "";
@@ -30,39 +29,28 @@ document.getElementById('uploadBtn').addEventListener('click', async () => {
             document.getElementById("forte1").value = data.forte2 || "";
             document.getElementById("description").value = data.description || "";
 
-            // Project 1
-            document.getElementById("p1_title").value = data.p1_title || "";
-            document.getElementById("p1_desc").value = data.p1_desc || "";
             for (let i = 0; i < 5; i++) {
                 document.getElementById(`p1_resp${i}`).value = (data.p1_resp && data.p1_resp[i]) || "";
-            }
-
-            // Project 2
-            document.getElementById("p2_title").value = data.p2_title || "";
-            document.getElementById("p2_desc").value = data.p2_desc || "";
-            for (let i = 0; i < 5; i++) {
                 document.getElementById(`p2_resp${i}`).value = (data.p2_resp && data.p2_resp[i]) || "";
-            }
-
-            // Project 3
-            document.getElementById("p3_title").value = data.p3_title || "";
-            document.getElementById("p3_desc").value = data.p3_desc || "";
-            for (let i = 0; i < 5; i++) {
                 document.getElementById(`p3_resp${i}`).value = (data.p3_resp && data.p3_resp[i]) || "";
             }
 
-            // Skills
+            document.getElementById("p1_title").value = data.p1_title || "";
+            document.getElementById("p1_desc").value = data.p1_desc || "";
+            document.getElementById("p2_title").value = data.p2_title || "";
+            document.getElementById("p2_desc").value = data.p2_desc || "";
+            document.getElementById("p3_title").value = data.p3_title || "";
+            document.getElementById("p3_desc").value = data.p3_desc || "";
+
             document.getElementById("prog").value = data.prog || "";
             document.getElementById("db").value = data.db || "";
             document.getElementById("tech").value = data.tech || "";
             document.getElementById("report").value = data.report || "";
             document.getElementById("misc").value = data.misc || "";
 
-            // Education
             document.getElementById("degree").value = data.degree || "";
             document.getElementById("college").value = data.college || "";
 
-            // Certifications
             for (let i = 1; i <= 10; i++) {
                 document.getElementById(`cert${i}`).value = data[`cert${i}`] || "";
             }
@@ -83,7 +71,7 @@ document.getElementById('uploadBtn').addEventListener('click', async () => {
 });
 
 
-// Collect Form Data
+// ================= COLLECT FORM DATA =================
 function collectData() {
   return {
     name: cleanInput(document.getElementById("name").value),
@@ -120,7 +108,76 @@ function collectData() {
 }
 
 
-// Cleaning helper
+// ================= PPT GENERATION =================
+async function fetchArrayBuffer(path) {
+  const res = await fetch(path);
+  if (!res.ok) throw new Error("Template not found");
+  return await res.arrayBuffer();
+}
+
+function encodeForPptx(text) {
+  if (!text) return "";
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\n/g, "<a:br/>");
+}
+
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+async function updatePptx(data) {
+  const buffer = await fetchArrayBuffer(TEMPLATE_NAME);
+  const zip = await JSZip.loadAsync(buffer);
+
+  const slideFiles = Object.keys(zip.files).filter(f => /^ppt\/slides\/slide\d+\.xml$/i.test(f));
+
+  for (const filePath of slideFiles) {
+    let xml = await zip.file(filePath).async("string");
+
+    Object.keys(data).forEach(key => {
+      const pattern = new RegExp(`{{\\s*${escapeRegExp(key)}\\s*}}`, "g");
+      xml = xml.replace(pattern, encodeForPptx(data[key]));
+    });
+
+    zip.file(filePath, xml);
+  }
+
+  return await zip.generateAsync({ type: "blob" });
+}
+
+
+// ================= GENERATE BUTTON =================
+document.getElementById("generateBtn").addEventListener("click", async function () {
+  const btn = this;
+  const statusEl = document.getElementById("status");
+
+  try {
+    btn.disabled = true;
+    statusEl.textContent = "Generating PPT...";
+
+    const data = collectData();
+    const blob = await updatePptx(data);
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Updated_Resume.pptx";
+    a.click();
+
+    statusEl.textContent = "Done! Download started.";
+  } catch (err) {
+    console.error(err);
+    statusEl.textContent = "Error generating PPT";
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+
+// ================= CLEAN =================
 function cleanInput(s) {
   if (!s) return "";
   return s.replace(/\*{2,}/g, "").replace(/^\*+|\*+$/g, "").trim();
