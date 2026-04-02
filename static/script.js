@@ -1,4 +1,4 @@
-const TEMPLATE_NAME = "/static/BytePX Formet (1) (2) (2) (1).pptx";
+const TEMPLATE_NAME = "/static/template.pptx";
 
 // ================= UPLOAD + PARSE =================
 document.getElementById('uploadBtn').addEventListener('click', async () => {
