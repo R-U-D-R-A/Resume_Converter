@@ -7,11 +7,10 @@ from flask import Flask, request, jsonify, render_template
 from PyPDF2 import PdfReader
 from docx import Document
 
-
 app = Flask(__name__)
 CORS(app)
 
-# 🔑 Move API key to environment variable (IMPORTANT for deployment)
+# 🔑 API Key from environment
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
@@ -32,11 +31,19 @@ def extract_text(file):
     return text.strip()
 
 
+# ✅ Home Page
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
+# ✅ Resume Page (FIXED ROUTE FOR YOUR ERROR)
+@app.route("/resume")
+def resume():
+    return render_template("resume.html")
+
+
+# ✅ Upload API
 @app.route("/upload_resume", methods=["POST"])
 def upload_resume():
     if "file" not in request.files:
@@ -44,7 +51,6 @@ def upload_resume():
 
     file = request.files["file"]
 
-    # ✅ File validation (prevents crashes)
     if file.filename == "":
         return jsonify({"error": "Empty filename"}), 400
 
@@ -54,6 +60,9 @@ def upload_resume():
     resume_text = extract_text(file)
     if not resume_text:
         return jsonify({"error": "Failed to extract text"}), 500
+
+    if not GEMINI_API_KEY:
+        return jsonify({"error": "API key not configured"}), 500
 
     headers = {
         "x-goog-api-key": GEMINI_API_KEY,
@@ -150,13 +159,12 @@ Resume Content:
 
         if candidates:
             text_output = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "").strip()
-
             clean_text = re.sub(r"```(?:json)?\n?|```", "", text_output).strip()
 
             try:
                 result = js.loads(clean_text)
             except Exception:
-                print("JSON parse failed. Raw:", text_output)
+                print("JSON parse failed:", text_output)
                 result = {}
         else:
             result = {}
@@ -165,7 +173,7 @@ Resume Content:
         print("Gemini API error:", str(e))
         result = {}
 
-    # ✅ Ensure structure always exists (important for frontend stability)
+    # Ensure structure always exists
     default_keys = [
         "name","designation","years","forte1","forte2","description",
         "p1_title","p1_desc","p1_resp","p2_title","p2_desc","p2_resp",
@@ -178,11 +186,9 @@ Resume Content:
         if key not in result:
             result[key] = [""]*5 if "resp" in key else ""
 
-    print("Extracted fields:", result)
     return jsonify(result)
 
 
 if __name__ == "__main__":
-    # ✅ REQUIRED for Render (dynamic port)
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
