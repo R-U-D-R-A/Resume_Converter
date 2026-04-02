@@ -148,7 +148,7 @@ Provide the answer in JSON format exactly like this:
 Resume Content:
 {resume_text}
 """
-
+   
     payload = {"contents": [{"parts": [{"text": prompt}]}]}
 
     try:
