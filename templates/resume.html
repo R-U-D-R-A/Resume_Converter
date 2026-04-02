@@ -6,159 +6,127 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='resume.css') }}">
 </head>
 <body>
-    <header>
-        <h1>BytePX Resume Converter</h1>
-    </header>
 
-    <section class="upload-box">
+<header>
+    <h1>BytePX Resume Converter</h1>
+    <div class="subtitle">Upload resume → Auto-fill → Generate PPT</div>
+</header>
+
+<section class="upload-box">
     <input type="file" id="resumeFile" accept=".pdf,.doc,.docx" />
-    <button type="button" id="uploadBtn">Generate</button>
+    <button type="button" id="uploadBtn">Upload & Parse</button>
     <div id="uploadStatus" class="status"></div>
-    </section>
+</section>
 
+<main class="container">
 
-    <main class="container">
-
-        <!-- BOX 1 : Personal Info -->
-        <section class="box">
-            <h2>Personal Information</h2>
-
-            <label for="name">Name</label>
-            <input id="name" type="text" placeholder="Enter Name" required>
-
-            <label for="designation">Designation</label>
-            <input id="designation" type="text" placeholder="Enter designation" required>
-
-            <label for="years">Years of Experience</label>
-            <input id="years" type="text" placeholder="Enter years" required>
-
-            <label for="forte">Forte</label>
-            <input id="forte" type="text" placeholder="Enter forte 1" required>
-            <input id="forte1" type="text" placeholder="Enter forte 2" required>
-
-
-            <label for="description">Description</label>
-            <textarea id="description" placeholder="Enter profile summary (multiple lines allowed)" required></textarea>
-        </section>
-
-        <!-- BOX 2 : Project 1 Full Details -->
+<!-- PERSONAL -->
 <section class="box">
-    <h2>Project 1 - Full Details</h2>
+    <h2>Personal Information</h2>
 
-    <label for="p1_title">Title</label>
-    <input id="p1_title" type="text" placeholder="Project 1 title" required>
+    <label>Name</label>
+    <input id="name" type="text">
 
-    <label for="p1_desc">Description</label>
-    <textarea id="p1_desc" placeholder="Project 1 description (5-6 lines)" required></textarea>
+    <label>Designation</label>
+    <input id="designation" type="text">
 
-    <label>Responsibilities</label>
+    <label>Years of Experience</label>
+    <input id="years" type="text">
 
-    <input id="p1_resp0" type="text" placeholder="" required>
-    <input id="p1_resp1" type="text" placeholder="" required>
-    <input id="p1_resp2" type="text" placeholder="" required>
-    <input id="p1_resp3" type="text" placeholder="" required>
-    <input id="p1_resp4" type="text" placeholder="" required>
+    <label>Forte</label>
+    <input id="forte" type="text">
+    <input id="forte1" type="text">
+
+    <label>Description</label>
+    <textarea id="description"></textarea>
 </section>
 
-        <!-- BOX 3 : Project 2 Full Details -->
+<!-- PROJECT 1 -->
 <section class="box">
-    <h2>Project 2 - Full Details</h2>
+    <h2>Project 1</h2>
 
-    <label for="p2_title">Title</label>
-    <input id="p2_title" type="text" placeholder="Project 2 title" required>
+    <input id="p1_title" type="text">
+    <textarea id="p1_desc"></textarea>
 
-    <label for="p2_desc">Description</label>
-    <textarea id="p2_desc" placeholder="Project 2 description (5-6 lines)" required></textarea>
-
-    <label>Responsibilities</label>
-
-    <input id="p2_resp0" type="text" placeholder="" required>
-    <input id="p2_resp1" type="text" placeholder="" required>
-    <input id="p2_resp2" type="text" placeholder="" required>
-    <input id="p2_resp3" type="text" placeholder="" required>
-    <input id="p2_resp4" type="text" placeholder="" required>
+    <input id="p1_resp0" type="text">
+    <input id="p1_resp1" type="text">
+    <input id="p1_resp2" type="text">
+    <input id="p1_resp3" type="text">
+    <input id="p1_resp4" type="text">
 </section>
 
+<!-- PROJECT 2 -->
+<section class="box">
+    <h2>Project 2</h2>
 
-        <!-- BOX 4 : Project 3 Full Details -->
-         <section class="box">
-    <h2>Project 3 - Full Details</h2>
+    <input id="p2_title" type="text">
+    <textarea id="p2_desc"></textarea>
 
-    <label for="p3_title">Title</label>
-    <input id="p3_title" type="text" placeholder="Project 3 title" required>
-
-    <label for="p3_desc">Description</label>
-    <textarea id="p3_desc" placeholder="Project 3 description (5-6 lines)" required></textarea>
-
-    <label>Responsibilities</label>
-
-    <input id="p3_resp0" type="text" placeholder="" required>
-    <input id="p3_resp1" type="text" placeholder="" required>
-    <input id="p3_resp2" type="text" placeholder="" required>
-    <input id="p3_resp3" type="text" placeholder="" required>
-    <input id="p3_resp4" type="text" placeholder="" required>
+    <input id="p2_resp0" type="text">
+    <input id="p2_resp1" type="text">
+    <input id="p2_resp2" type="text">
+    <input id="p2_resp3" type="text">
+    <input id="p2_resp4" type="text">
 </section>
-    
 
-        <!-- BOX 5 : Technical Skills -->
-        <section class="box">
-            <h2>Technical Skills</h2>
+<!-- PROJECT 3 -->
+<section class="box">
+    <h2>Project 3</h2>
 
-            <label for="prog">Programming Languages</label>
-            <textarea id="prog" placeholder="e.g. Java, Python, C#" required></textarea>
+    <input id="p3_title" type="text">
+    <textarea id="p3_desc"></textarea>
 
-            <label for="db">Database</label>
-            <textarea id="db" placeholder="e.g. MySQL, MongoDB" required></textarea>
+    <input id="p3_resp0" type="text">
+    <input id="p3_resp1" type="text">
+    <input id="p3_resp2" type="text">
+    <input id="p3_resp3" type="text">
+    <input id="p3_resp4" type="text">
+</section>
 
-            <label for="tech">Technologies</label>
-            <textarea id="tech" placeholder="e.g. Flask, Spring, React" required></textarea>
+<!-- SKILLS -->
+<section class="box">
+    <h2>Technical Skills</h2>
 
-            <label for="report">Report & Analytics</label>
-            <textarea id="report" placeholder="e.g. PowerBI, Tableau" required></textarea>
+    <textarea id="prog"></textarea>
+    <textarea id="db"></textarea>
+    <textarea id="tech"></textarea>
+    <textarea id="report"></textarea>
+    <textarea id="misc"></textarea>
+</section>
 
-            <label for="misc">Miscellaneous</label>
-            <textarea id="misc" placeholder="Any other skills/tools" required></textarea>
-        </section>
-
-        <!-- BOX 6 : Education -->
-        <section class="box">
+<!-- EDUCATION -->
+<section class="box">
     <h2>Education</h2>
 
-    <label for="degree">Degree Name</label>
-    <input id="degree" type="text" placeholder="Enter degree" required>
+    <input id="degree" type="text">
+    <input id="college" type="text">
 
-    <label for="college">College Name</label>
-    <input id="college" type="text" placeholder="Enter college" required>
-    </br>
+    <h2>Certifications</h2>
 
-    <h2>Certification</h2>
-    <label>All Certifications</label>
-
-    <input id="cert1" type="text" placeholder="">
-    <input id="cert2" type="text" placeholder="">
-    <input id="cert3" type="text" placeholder="">
-    <input id="cert4" type="text" placeholder="">
-    <input id="cert5" type="text" placeholder="">
-    <input id="cert6" type="text" placeholder="">
-    <input id="cert7" type="text" placeholder="">
-    <input id="cert8" type="text" placeholder="">
-    <input id="cert9" type="text" placeholder="">
-    <input id="cert10" type="text" placeholder="">
+    <input id="cert1" type="text">
+    <input id="cert2" type="text">
+    <input id="cert3" type="text">
+    <input id="cert4" type="text">
+    <input id="cert5" type="text">
+    <input id="cert6" type="text">
+    <input id="cert7" type="text">
+    <input id="cert8" type="text">
+    <input id="cert9" type="text">
+    <input id="cert10" type="text">
 </section>
 
+</main>
 
-    </main>
+<div class="actions">
+    <button id="generateBtn">Generate PPTX</button>
+    <div id="status" class="status"></div>
+</div>
 
-    <!-- BUTTON + STATUS -->
-    <div class="actions">
-        <button id="generateBtn">Generate PPTX</button>
-        <div id="status" class="status"> </div>
-    </div>
+<!-- JSZip -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
-    <!-- JSZip (for editing PPTX) -->
-    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<!-- SCRIPT -->
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 
-    <!-- Main script -->
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
