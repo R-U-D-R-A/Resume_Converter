@@ -34,7 +34,7 @@ def extract_text(file):
 
 @app.route("/")
 def home():
-    return "Resume Parser API is running"
+    return render_template("index.html")
 
 
 @app.route("/upload_resume", methods=["POST"])
